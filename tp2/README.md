@@ -32,3 +32,4 @@ El código no se encuentra completo y en su mayoría no maneja flujo de errores.
     * Implementar mecanismo de retry 
         * con backoff lineal/exponencial (opcional)
  5. Bonus: Investigar sobre [Worker Threads](https://nodejs.org/api/worker_threads.html) y aplicarlos en el sistema
+
