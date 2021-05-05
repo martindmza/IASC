@@ -8,7 +8,11 @@ const LINEAS = SERVICIOS.lineas;
 
 const lineasDb = {
     buscarPorLinea(linea, callback) {
-        // Implementar
+        return new Promise(function(resolve, reject) {
+            let data = JSON.parse(fs.readFileSync('lineas.db.json'));
+            console.log(data[linea].colectivos);
+            resolve(data[linea]);
+        });
     }
 };
 
@@ -18,12 +22,22 @@ app.use(healthCheck);
 
 app.get('/lineas/:linea', (req, res) => {
     const linea = req.params.linea;
-    // const estadoLinea = lineasDb.buscarPorLinea(linea);    ¿Cómo seguimos?
-    if (estadoLinea === undefined) {
+    lineasDb.buscarPorLinea(linea)
+    .then( function (data) {
+        console.log(data);
+        if (data === undefined) {
+            res.sendStatus(404);
+        } else {
+            if (data.funciona) {
+                res.json(data);
+            } else {
+                res.sendStatus(404);
+            }
+        }
+    })
+    .catch(function (error) {
         res.sendStatus(404);
-    } else {
-        res.json(estadoLinea);
-    }
+    });
 });
 
 app.listen(LINEAS.puerto, () => {
